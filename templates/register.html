@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <title>Registracija uporabnika</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        form { max-width: 400px; }
+        label { display: block; margin-top: 1rem; }
+        input[type="text"], input[type="password"] { width: 100%; padding: 0.5rem; }
+        button { margin-top: 1rem; padding: 0.5rem 1rem; }
+        .message { margin-top: 1rem; color: red; }
+    </style>
+</head>
+<body>
+    <h1>Registracija uporabnika</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="message">
+          <ul>
+          {% for category, message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+    <form method="post" action="{{ url_for('register') }}">
+        <label for="username">Uporabniško ime</label>
+        <input type="text" id="username" name="username" value="{{ username|default('') }}" required>
+
+        <label for="password">Geslo</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Registriraj se</button>
+    </form>
+    <p><a href="{{ url_for('index') }}">Nazaj na glavno stran</a></p>
+</body>
+</html>
