@@ -23,14 +23,14 @@
     <div class="top-links">
         {% if current_user %}
             Pozdravljen(a), {{ current_user.username }} |
-            <a href="{{ url_for('index') }}">Vsi recepti</a> |
-            <a href="{{ url_for('my_recipes') }}">Moji recepti</a> |
-            <a href="{{ url_for('add_recipe') }}">Dodaj nov recept</a> |
+            <a href="{{ url_for('index') }}">Vsi treningi</a> |
+            <a href="{{ url_for('my_recipes') }}">Moji treningi</a> |
+            <a href="{{ url_for('add_recipe') }}">Dodaj nov trening</a> |
             <a href="{{ url_for('logout') }}">Odjava</a>
         {% else %}
             <a href="{{ url_for('register') }}">Registracija</a> |
             <a href="{{ url_for('login') }}">Prijava</a> |
-            <a href="{{ url_for('add_recipe') }}">Dodaj nov recept</a>
+            <a href="{{ url_for('add_recipe') }}">Dodaj nov trening</a>
         {% endif %}
     </div>
 
@@ -88,10 +88,10 @@
             </tbody>
         </table>
     {% else %}
-        <p>Ni še nobenega recepta. Dodajte nov recept.</p>
+        <p>Ni še nobenega recepta. Dodajte nov trening.</p>
     {% endif %}
         <footer>
-            <p>Knjižnica receptov — preprosta aplikacija za shranjevanje receptov/vaj.</p>
+            <p>Knjižnica treningov — preprosta aplikacija za shranjevanje treningov.</p>
         </footer>
     </div>
 </body>
