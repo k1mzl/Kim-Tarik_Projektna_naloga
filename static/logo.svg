@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title">
+  <title id="title">Knjižnica receptov</title>
+  <circle cx="60" cy="60" r="58" fill="#007bff" />
+  <path d="M34 40h52v10H34z" fill="#fff" />
+  <path d="M34 58h52v10H34z" fill="#fff" />
+  <path d="M34 76h40v10H34z" fill="#fff" />
+  <path d="M36 92h12v10H36z" fill="#fff" />
+  <path d="M72 92h12v10H72z" fill="#fff" />
+</svg>

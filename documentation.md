@@ -11,39 +11,39 @@ Spletna aplikacija, kjer uporabnik shranjuje svoje recepte.
 ## Funkcionalnosti
  
 ### F1: Registracija uporabnika
-**Status:** TODO
+**Status:** DONE
 **Opis:** Uporabnik se registrira z uporabniškim imenom in geslom.
 **Zahteve:**
 - uporabniško ime mora biti unikatno
 - geslo min. 6 znakov
 - po registraciji preusmeritev na glavno stran
 **Opombe iz razvoja:**
-/
+Registracija deluje z osnovnim preverjanjem in shranjevanjem gesla kot hash.
  
-### F2: Dodajanje recepta
-**Status:** TODO
-**Opis:** Uporabnik vidi seznam vseh trening vaj.
+### F2: Dodajanje treninga
+**Status:** DONE
+**Opis:** Uporabnik vidi seznam vseh treningov / vaj.
 **Zahteve:**
 - prikaz imena vaje
 - prikaz športa
 - prikaz težavnosti
 - podatki se berejo iz TinyDB
 **Opombe iz razvoja:**
-/
+Seznam receptov je mogoče filtrirati.
  
-### F3: Pregled mojih receptov
-**Status:** TODO
-**Opis:** Uporabnik lahko filtrira vaje po športu in težavnosti.
+### F3: Pregled mojih treningov
+**Status:** DONE
+**Opis:** Uporabnik lahko filtrira recepte po športu in težavnosti.
 **Zahteve:**
 - filter po športu
 - filter po težavnosti
 - prikaz samo ustreznih vaj
-- 
+ 
 ### F4: Podrobnosti vaje
-**Status:** TODO
+**Status:** DONE
 
 **Opis:**  
-Uporabnik lahko odpre posamezno vajo in vidi podrobnosti.
+Uporabnik lahko odpre posamezni recept in vidi podrobnosti.
 
 **Zahteve:**
 - ime vaje
@@ -54,10 +54,10 @@ Uporabnik lahko odpre posamezno vajo in vidi podrobnosti.
 ---
 
 ### F5: Dodajanje vaj
-**Status:** TODO
+**Status:** DONE
 
 **Opis:**  
-Trener lahko doda novo vajo.
+Uporabnik lahko doda nov recept / vajo.
 
 **Zahteve:**
 - obrazec za dodajanje
@@ -72,7 +72,7 @@ Trener lahko doda novo vajo.
 | Tabela | Polja |
 |---|---|
 | users | id, username, password_hash |
-| recipes | id, user_id, name, ingredients, instructions |
+| recipes | id, user_id, name, sport, difficulty, description, duration, equipment |
  
 ## Znane omejitve
 - ni možnosti urejanja že dodanih receptov

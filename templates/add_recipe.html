@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj Trening</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Knjižnica receptov">
+            <div>
+                <h1>Dodaj nov trening</h1>
+                <nav>
+                    <a href="{{ url_for('index') }}">Vsi Trening</a>
+                    <a href="{{ url_for('my_recipes') }}">Moji Trening</a>
+                    <a href="{{ url_for('logout') }}">Odjava</a>
+                </nav>
+            </div>
+        </header>
+    <p><a href="{{ url_for('index') }}">Vsi recepti</a> | <a href="{{ url_for('my_recipes') }}">Moji Trening</a> | <a href="{{ url_for('logout') }}">Odjava</a></p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="message">
+          <ul>
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+    <form method="post" action="{{ url_for('add_recipe') }}">
+        <label for="name">Ime recepta / vaje</label>
+        <input type="text" id="name" name="name" value="{{ name|default('') }}" required>
+
+        <label for="sport">Šport</label>
+        <input type="text" id="sport" name="sport" value="{{ sport|default('') }}" required>
+
+        <label for="difficulty">Težavnost</label>
+        <input type="text" id="difficulty" name="difficulty" value="{{ difficulty|default('') }}" required>
+
+        <label for="description">Opis</label>
+        <textarea id="description" name="description" required>{{ description|default('') }}</textarea>
+
+        <label for="duration">Trajanje</label>
+        <input type="text" id="duration" name="duration" value="{{ duration|default('') }}" required>
+
+        <label for="equipment">Potrebna oprema</label>
+        <input type="text" id="equipment" name="equipment" value="{{ equipment|default('') }}" required>
+
+        <button type="submit">Shrani recept</button>
+    </form>
+    <p><a href="{{ url_for('index') }}">Nazaj na glavno stran</a></p>
+        <footer>
+            <p>Dodajte svojo vajo ali recept in si jo shranite za kasneje.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="sl">
 <head>
     <meta charset="UTF-8">
-    <title>Registracija uporabnika</title>
+    <title>Prijava uporabnika</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -10,10 +10,10 @@
         <header>
             <img src="{{ url_for('static', filename='logo.svg') }}" alt="Knjižnica receptov">
             <div>
-                <h1>Registracija uporabnika</h1>
+                <h1>Prijava uporabnika</h1>
                 <nav>
                     <a href="{{ url_for('index') }}">Vsi recepti</a>
-                    <a href="{{ url_for('login') }}">Prijava</a>
+                    <a href="{{ url_for('register') }}">Registracija</a>
                 </nav>
             </div>
         </header>
@@ -28,18 +28,19 @@
         </div>
       {% endif %}
     {% endwith %}
-    <form method="post" action="{{ url_for('register') }}">
+    <form method="post" action="{{ url_for('login') }}">
         <label for="username">Uporabniško ime</label>
         <input type="text" id="username" name="username" value="{{ username|default('') }}" required>
 
         <label for="password">Geslo</label>
         <input type="password" id="password" name="password" required>
 
-        <button type="submit">Registriraj se</button>
+        <button type="submit">Prijavi se</button>
     </form>
+    <p><a href="{{ url_for('register') }}">Registracija novega uporabnika</a></p>
     <p><a href="{{ url_for('index') }}">Nazaj na glavno stran</a></p>
         <footer>
-            <p>Registrirajte se, da lahko dodajate in upravljate svoje recepte.</p>
+            <p>Prijavite se, da si ogledate svoje recepte in dodate nove.</p>
         </footer>
     </div>
 </body>

@@ -2,16 +2,97 @@
 <html lang="sl">
 <head>
     <meta charset="UTF-8">
-    <title>Glavna stran - Knjižnica receptov</title>
+    <title>Glavna stran - Knjižnica Treningov</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 2rem; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { border: 1px solid #ccc; padding: 0.75rem; text-align: left; }
+        th { background: #f7f7f7; }
+        form { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }
+        select { padding: 0.5rem; }
+        .top-links { margin-bottom: 1rem; }
+        .message ul { list-style: none; padding: 0; margin: 0; }
+        .message li.error { color: #c00; }
+        .message li.success { color: #080; }
     </style>
 </head>
 <body>
-    <h1>Dobrodošli v Knjižnici receptov</h1>
-    <p>Uporabnik je lahko registriran in preusmerjen na glavno stran.</p>
-    <p><a href="{{ url_for('register') }}">Registracija novega uporabnika</a></p>
+    <h1>{% if mine_view %}Moji recepti{% else %}Knjižnica receptov{% endif %}</h1>
+    <div class="top-links">
+        {% if current_user %}
+            Pozdravljen(a), {{ current_user.username }} |
+            <a href="{{ url_for('index') }}">Vsi recepti</a> |
+            <a href="{{ url_for('my_recipes') }}">Moji recepti</a> |
+            <a href="{{ url_for('add_recipe') }}">Dodaj nov recept</a> |
+            <a href="{{ url_for('logout') }}">Odjava</a>
+        {% else %}
+            <a href="{{ url_for('register') }}">Registracija</a> |
+            <a href="{{ url_for('login') }}">Prijava</a> |
+            <a href="{{ url_for('add_recipe') }}">Dodaj nov recept</a>
+        {% endif %}
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="message">
+          <ul>
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="get" action="{{ url_for('index') }}">
+        <label for="sport">Filtriraj po športu:</label>
+        <select name="sport" id="sport">
+            <option value="">Vsi</option>
+            {% for sport in sports %}
+                <option value="{{ sport }}" {% if sport == selected_sport %}selected{% endif %}>{{ sport }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="difficulty">Filtriraj po težavnosti:</label>
+        <select name="difficulty" id="difficulty">
+            <option value="">Vsi</option>
+            {% for difficulty in difficulties %}
+                <option value="{{ difficulty }}" {% if difficulty == selected_difficulty %}selected{% endif %}>{{ difficulty }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Uporabi filter</button>
+    </form>
+
+    {% if recipes %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Ime</th>
+                    <th>Šport</th>
+                    <th>Težavnost</th>
+                    <th>Akcije</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                    <tr>
+                        <td>{{ recipe.name }}</td>
+                        <td>{{ recipe.sport }}</td>
+                        <td>{{ recipe.difficulty }}</td>
+                        <td><a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}">Podrobnosti</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Ni še nobenega recepta. Dodajte nov recept.</p>
+    {% endif %}
+        <footer>
+            <p>Knjižnica receptov — preprosta aplikacija za shranjevanje receptov/vaj.</p>
+        </footer>
+    </div>
 </body>
 </html>
