@@ -8,17 +8,17 @@
 <body>
     <div class="container">
         <header>
-            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Knjižnica receptov">
+            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Knjižnica Treningov">
             <div>
                 <h1>Dodaj nov trening</h1>
                 <nav>
-                    <a href="{{ url_for('index') }}">Vsi Trening</a>
-                    <a href="{{ url_for('my_recipes') }}">Moji Trening</a>
+                    <a href="{{ url_for('index') }}">Vsi Treningi</a>
+                    <a href="{{ url_for('my_recipes') }}">Moji Treningi</a>
                     <a href="{{ url_for('logout') }}">Odjava</a>
                 </nav>
             </div>
         </header>
-    <p><a href="{{ url_for('index') }}">Vsi recepti</a> | <a href="{{ url_for('my_recipes') }}">Moji Trening</a> | <a href="{{ url_for('logout') }}">Odjava</a></p>
+    <p><a href="{{ url_for('index') }}">Vsi treningi</a> | <a href="{{ url_for('my_recipes') }}">Moji treningi</a> | <a href="{{ url_for('logout') }}">Odjava</a></p>
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <div class="message">
