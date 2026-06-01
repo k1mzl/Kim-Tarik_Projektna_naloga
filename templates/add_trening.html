@@ -13,12 +13,12 @@
                 <h1>Dodaj nov trening</h1>
                 <nav>
                     <a href="{{ url_for('index') }}">Vsi Treningi</a>
-                    <a href="{{ url_for('my_recipes') }}">Moji Treningi</a>
+                    <a href="{{ url_for('my_trenings') }}">Moji Treningi</a>
                     <a href="{{ url_for('logout') }}">Odjava</a>
                 </nav>
             </div>
         </header>
-    <p><a href="{{ url_for('index') }}">Vsi treningi</a> | <a href="{{ url_for('my_recipes') }}">Moji treningi</a> | <a href="{{ url_for('logout') }}">Odjava</a></p>
+    <p><a href="{{ url_for('index') }}">Vsi treningi</a> | <a href="{{ url_for('my_trenings') }}">Moji treningi</a> | <a href="{{ url_for('logout') }}">Odjava</a></p>
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <div class="message">
@@ -30,8 +30,8 @@
         </div>
       {% endif %}
     {% endwith %}
-    <form method="post" action="{{ url_for('add_recipe') }}">
-        <label for="name">Ime recepta / vaje</label>
+    <form method="post" action="{{ url_for('add_trening') }}">
+        <label for="name">Ime treninga / vaje</label>
         <input type="text" id="name" name="name" value="{{ name|default('') }}" required>
 
         <label for="sport">Šport</label>
@@ -49,11 +49,11 @@
         <label for="equipment">Potrebna oprema</label>
         <input type="text" id="equipment" name="equipment" value="{{ equipment|default('') }}" required>
 
-        <button type="submit">Shrani recept</button>
+        <button type="submit">Shrani trening</button>
     </form>
     <p><a href="{{ url_for('index') }}">Nazaj na glavno stran</a></p>
         <footer>
-            <p>Dodajte svojo vajo ali recept in si jo shranite za kasneje.</p>
+            <p>Dodajte svojo vajo ali trening in si jo shranite za kasneje.</p>
         </footer>
     </div>
 </body>

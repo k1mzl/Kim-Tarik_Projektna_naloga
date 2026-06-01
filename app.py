@@ -9,9 +9,9 @@ app.config['SECRET_KEY'] = 'dev_secret_key'
 
 db = TinyDB('db.json')
 users_table = db.table('users')
-recipes_table = db.table('recipes')
+trenings_table = db.table('recipes')
 User = Query()
-Recipe = Query()
+Trening = Query()
 
 def get_current_user():
     user_id = session.get('user_id')
@@ -38,18 +38,18 @@ def index():
     difficulty_filter = request.args.get('difficulty', '').strip()
     current_user = get_current_user()
 
-    recipes = recipes_table.all()
-    sports = sorted({recipe.get('sport', '') for recipe in recipes if recipe.get('sport')})
-    difficulties = sorted({recipe.get('difficulty', '') for recipe in recipes if recipe.get('difficulty')})
+    trenings = trenings_table.all()
+    sports = sorted({trening.get('sport', '') for trening in trenings if trening.get('sport')})
+    difficulties = sorted({trening.get('difficulty', '') for trening in trenings if trening.get('difficulty')})
 
     if sport_filter:
-        recipes = [recipe for recipe in recipes if recipe.get('sport') == sport_filter]
+        trenings = [trening for trening in trenings if trening.get('sport') == sport_filter]
     if difficulty_filter:
-        recipes = [recipe for recipe in recipes if recipe.get('difficulty') == difficulty_filter]
+        trenings = [trening for trening in trenings if trening.get('difficulty') == difficulty_filter]
 
     return render_template(
         'index.html',
-        recipes=recipes,
+        trenings=trenings,
         sports=sports,
         difficulties=difficulties,
         selected_sport=sport_filter,
@@ -60,23 +60,23 @@ def index():
 
 @app.route('/my')
 @login_required
-def my_recipes():
+def my_trenings():
     current_user = get_current_user()
     sport_filter = request.args.get('sport', '').strip()
     difficulty_filter = request.args.get('difficulty', '').strip()
 
-    recipes = recipes_table.search(Recipe.user_id == current_user['id'])
-    sports = sorted({recipe.get('sport', '') for recipe in recipes if recipe.get('sport')})
-    difficulties = sorted({recipe.get('difficulty', '') for recipe in recipes if recipe.get('difficulty')})
+    trenings = trenings_table.search(Trening.user_id == current_user['id'])
+    sports = sorted({trening.get('sport', '') for trening in trenings if trening.get('sport')})
+    difficulties = sorted({trening.get('difficulty', '') for trening in trenings if trening.get('difficulty')})
 
     if sport_filter:
-        recipes = [recipe for recipe in recipes if recipe.get('sport') == sport_filter]
+        trenings = [trening for trening in trenings if trening.get('sport') == sport_filter]
     if difficulty_filter:
-        recipes = [recipe for recipe in recipes if recipe.get('difficulty') == difficulty_filter]
+        trenings = [trening for trening in trenings if trening.get('difficulty') == difficulty_filter]
 
     return render_template(
         'index.html',
-        recipes=recipes,
+        trenings=trenings,
         sports=sports,
         difficulties=difficulties,
         selected_sport=sport_filter,
@@ -131,7 +131,7 @@ def login():
         session['user_id'] = user['id']
         session['username'] = user['username']
         flash('Prijava uspešna.', 'success')
-        return redirect(url_for('my_recipes'))
+        return redirect(url_for('my_trenings'))
 
     return render_template('login.html', current_user=get_current_user())
 
@@ -141,18 +141,76 @@ def logout():
     flash('Odjava uspešna.', 'success')
     return redirect(url_for('index'))
 
-@app.route('/recipe/<recipe_id>')
-def recipe_detail(recipe_id):
-    recipe = recipes_table.get(Recipe.id == recipe_id)
-    if not recipe:
-        flash('Recept ni bil najden.', 'error')
+@app.route('/trening/<trening_id>')
+def trening_detail(trening_id):
+    trening = trenings_table.get(Trening.id == trening_id)
+    if not trening:
+        flash('Trening ni bil najden.', 'error')
         return redirect(url_for('index'))
 
-    return render_template('recipe_detail.html', recipe=recipe, current_user=get_current_user())
+    return render_template('trening_detail.html', trening=trening, current_user=get_current_user())
+
+
+@app.route('/trening/<trening_id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_trening(trening_id):
+    trening = trenings_table.get(Trening.id == trening_id)
+    if not trening:
+        flash('Trening ni bil najden.', 'error')
+        return redirect(url_for('index'))
+
+    current_user = get_current_user()
+    if trening.get('user_id') != current_user['id']:
+        flash('Niste pooblaščeni za urejanje tega treninga.', 'error')
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        sport = request.form.get('sport', '').strip()
+        difficulty = request.form.get('difficulty', '').strip()
+        description = request.form.get('description', '').strip()
+        duration = request.form.get('duration', '').strip()
+        equipment = request.form.get('equipment', '').strip()
+
+        if not all([name, sport, difficulty, description, duration, equipment]):
+            flash('Vsa polja so obvezna.', 'error')
+            return render_template('edit_trening.html', trening=trening)
+
+        trenings_table.update({
+            'name': name,
+            'sport': sport,
+            'difficulty': difficulty,
+            'description': description,
+            'duration': duration,
+            'equipment': equipment,
+        }, Trening.id == trening_id)
+
+        flash('Trening je bil posodobljen.', 'success')
+        return redirect(url_for('trening_detail', trening_id=trening_id))
+
+    return render_template('edit_trening.html', trening=trening)
+
+
+@app.route('/trening/<trening_id>/delete', methods=['POST'])
+@login_required
+def delete_trening(trening_id):
+    trening = trenings_table.get(Trening.id == trening_id)
+    if not trening:
+        flash('Trening ni bil najden.', 'error')
+        return redirect(url_for('index'))
+
+    current_user = get_current_user()
+    if trening.get('user_id') != current_user['id']:
+        flash('Niste pooblaščeni za brisanje tega treninga.', 'error')
+        return redirect(url_for('index'))
+
+    trenings_table.remove(Trening.id == trening_id)
+    flash('Trening je bil izbrisan.', 'success')
+    return redirect(url_for('my_trenings'))
 
 @app.route('/add', methods=['GET', 'POST'])
 @login_required
-def add_recipe():
+def add_trening():
     current_user = get_current_user()
     if request.method == 'POST':
         name = request.form.get('name', '').strip()
@@ -165,7 +223,7 @@ def add_recipe():
         if not all([name, sport, difficulty, description, duration, equipment]):
             flash('Vsa polja so obvezna.', 'error')
             return render_template(
-                'add_recipe.html',
+                'add_trening.html',
                 name=name,
                 sport=sport,
                 difficulty=difficulty,
@@ -174,7 +232,7 @@ def add_recipe():
                 equipment=equipment,
             )
 
-        recipes_table.insert({
+        trenings_table.insert({
             'id': uuid.uuid4().hex,
             'user_id': current_user['id'],
             'name': name,
@@ -185,10 +243,10 @@ def add_recipe():
             'equipment': equipment,
         })
 
-        flash('Recept je bil uspešno dodan.', 'success')
-        return redirect(url_for('my_recipes'))
+        flash('Trening je bil uspešno dodan.', 'success')
+        return redirect(url_for('my_trenings'))
 
-    return render_template('add_recipe.html')
+    return render_template('add_trening.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

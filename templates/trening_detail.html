@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <title>Podrobnosti treninga</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Knjižnica treningov">
+            <div>
+                <h1>Podrobnosti treninga</h1>
+                <nav>
+                    <a href="{{ url_for('index') }}">Vsi treningi</a>
+                    {% if current_user %}
+                        <a href="{{ url_for('my_trenings') }}">Moji treningi</a>
+                        <a href="{{ url_for('logout') }}">Odjava</a>
+                    {% endif %}
+                </nav>
+            </div>
+        </header>
+    <p><a href="{{ url_for('index') }}">Nazaj na seznam</a>
+    {% if current_user and trening.user_id == current_user.id %}
+        | <a href="{{ url_for('edit_trening', trening_id=trening.id) }}">Uredi</a>
+        | <form action="{{ url_for('delete_trening', trening_id=trening.id) }}" method="post" style="display:inline; margin:0; padding:0;">
+            <button type="submit" onclick="return confirm('Ali res želite izbrisati trening?')">Izbriši</button>
+          </form>
+    {% endif %}
+    {% if current_user %}| <a href="{{ url_for('logout') }}">Odjava</a>{% endif %}</p>
+    <div class="detail">
+        <dl>
+            <dt>Ime: {{ trening.name }}</dt><br>
+            
+
+            <dt>Šport: {{ trening.sport }}</dt><br>
+    
+
+            <dt>Težavnost: {{ trening.difficulty }}</dt><br>
+            
+
+            <dt>Opis: {{ trening.description }}</dt><br>
+
+            <dt>Trajanje: {{ trening.duration }}</dt><br>
+
+            <dt>Potrebna oprema: {{ trening.equipment }}</dt>
+        </dl>
+    </div>
+    <p><a href="{{ url_for('index') }}">Nazaj na seznam</a></p>
+        <footer>
+            <p>Podrobnosti treninga v Knjižnici treningov.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -19,18 +19,18 @@
     </style>
 </head>
 <body>
-    <h1>{% if mine_view %}Moji recepti{% else %}Knjižnica receptov{% endif %}</h1>
+    <h1>{% if mine_view %}Moji treningi{% else %}Knjižnica treningov{% endif %}</h1>
     <div class="top-links">
         {% if current_user %}
             Pozdravljen(a), {{ current_user.username }} |
             <a href="{{ url_for('index') }}">Vsi treningi</a> |
-            <a href="{{ url_for('my_recipes') }}">Moji treningi</a> |
-            <a href="{{ url_for('add_recipe') }}">Dodaj nov trening</a> |
+            <a href="{{ url_for('my_trenings') }}">Moji treningi</a> |
+            <a href="{{ url_for('add_trening') }}">Dodaj nov trening</a> |
             <a href="{{ url_for('logout') }}">Odjava</a>
         {% else %}
             <a href="{{ url_for('register') }}">Registracija</a> |
             <a href="{{ url_for('login') }}">Prijava</a> |
-            <a href="{{ url_for('add_recipe') }}">Dodaj nov trening</a>
+            <a href="{{ url_for('add_trening') }}">Dodaj nov trening</a>
         {% endif %}
     </div>
 
@@ -66,7 +66,7 @@
         <button type="submit">Uporabi filter</button>
     </form>
 
-    {% if recipes %}
+    {% if trenings %}
         <table>
             <thead>
                 <tr>
@@ -77,12 +77,20 @@
                 </tr>
             </thead>
             <tbody>
-                {% for recipe in recipes %}
+                {% for trening in trenings %}
                     <tr>
-                        <td>{{ recipe.name }}</td>
-                        <td>{{ recipe.sport }}</td>
-                        <td>{{ recipe.difficulty }}</td>
-                        <td><a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}">Podrobnosti</a></td>
+                        <td>{{ trening.name }}</td>
+                        <td>{{ trening.sport }}</td>
+                        <td>{{ trening.difficulty }}</td>
+                        <td>
+                            <a href="{{ url_for('trening_detail', trening_id=trening.id) }}">Podrobnosti</a>
+                            {% if current_user and trening.user_id == current_user.id %}
+                                | <a href="{{ url_for('edit_trening', trening_id=trening.id) }}">Uredi</a>
+                                | <form action="{{ url_for('delete_trening', trening_id=trening.id) }}" method="post" style="display:inline; margin:0; padding:0;">
+                                    <button type="submit" onclick="return confirm('Ali res želite izbrisati trening?')">Izbriši</button>
+                                  </form>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

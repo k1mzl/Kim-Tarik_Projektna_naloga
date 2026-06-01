@@ -1,6 +1,6 @@
 # Kim-Tarik_Projektna_naloga
 
-Enostavna Flask aplikacija za knjižnico receptov / vaj s TinyDB.
+Enostavna Flask aplikacija za knjižnico treningov / vaj s TinyDB.
 
 ## Namestitev
 
@@ -21,7 +21,7 @@ Enostavna Flask aplikacija za knjižnico receptov / vaj s TinyDB.
 
 - registracija uporabnika
 - prijava in odjava
-- seznam receptov z možnostjo filtriranja po športu in težavnosti
-- pregled lastnih receptov po prijavi
-- podrobnosti posameznega recepta
-- dodajanje novih receptov (potrebna prijava)
+- seznam treningov z možnostjo filtriranja po športu in težavnosti
+- pregled lastnih treningov po prijavi
+- podrobnosti posameznega treninga
+- dodajanje novih treningov (potrebna prijava)

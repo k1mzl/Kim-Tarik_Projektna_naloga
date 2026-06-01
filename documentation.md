@@ -1,7 +1,7 @@
-# Documentation: Knjižnica receptov
+# Documentation: Knjižnica treningov
  
 ## Pregled
-Spletna aplikacija, kjer uporabnik shranjuje svoje recepte.
+Spletna aplikacija, kjer uporabnik shranjuje svoje treninge.
  
 ## Tech stack
 - Backend: Flask
@@ -29,11 +29,11 @@ Registracija deluje z osnovnim preverjanjem in shranjevanjem gesla kot hash.
 - prikaz težavnosti
 - podatki se berejo iz TinyDB
 **Opombe iz razvoja:**
-Seznam receptov je mogoče filtrirati.
+	Seznam treningov je mogoče filtrirati.
  
 ### F3: Pregled mojih treningov
 **Status:** DONE
-**Opis:** Uporabnik lahko filtrira recepte po športu in težavnosti.
+**Opis:** Uporabnik lahko filtrira treninge po športu in težavnosti.
 **Zahteve:**
 - filter po športu
 - filter po težavnosti
@@ -43,7 +43,7 @@ Seznam receptov je mogoče filtrirati.
 **Status:** DONE
 
 **Opis:**  
-Uporabnik lahko odpre posamezni recept in vidi podrobnosti.
+Uporabnik lahko odpre posamezni trening in vidi podrobnosti.
 
 **Zahteve:**
 - ime vaje
@@ -57,7 +57,7 @@ Uporabnik lahko odpre posamezni recept in vidi podrobnosti.
 **Status:** DONE
 
 **Opis:**  
-Uporabnik lahko doda nov recept / vajo.
+Uporabnik lahko doda nov trening / vajo.
 
 **Zahteve:**
 - obrazec za dodajanje
@@ -72,8 +72,8 @@ Uporabnik lahko doda nov recept / vajo.
 | Tabela | Polja |
 |---|---|
 | users | id, username, password_hash |
-| recipes | id, user_id, name, sport, difficulty, description, duration, equipment |
+| trenings | id, user_id, name, sport, difficulty, description, duration, equipment |
  
 ## Znane omejitve
-- ni možnosti urejanja že dodanih receptov
-- ni iskanja po receptih
+- ni možnosti urejanja že dodanih treningov
+- ni iskanja po treningih
