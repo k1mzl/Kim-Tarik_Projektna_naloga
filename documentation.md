@@ -75,5 +75,4 @@ Uporabnik lahko doda nov trening / vajo.
 | trenings | id, user_id, name, sport, difficulty, description, duration, equipment |
  
 ## Znane omejitve
-- ni možnosti urejanja že dodanih treningov
 - ni iskanja po treningih
